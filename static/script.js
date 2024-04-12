@@ -1,9 +1,8 @@
-
 document.addEventListener('DOMContentLoaded', function() {
     var chatBox = document.getElementById('chatMessages');
     var userInput = document.getElementById('userMessage');
     var sendButton = document.getElementById('send-button');
-    var messengerIcon = document.querySelector('.messenger-icon');
+    var messengerIcon = document.querySelector('.messenger-icon'); 
     var chatboxContainer = document.querySelector('.chatbox-container');
     var closeButton = document.querySelector('.close-button');
     var refreshButton = document.querySelector('.refresh-button');
@@ -18,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
      // Add click event listener to the messengerIcon
      messengerIcon.addEventListener('click', function() {
+        
         // Toggle visibility of the chatbox container
         if (chatboxContainer.style.display === 'none' || !chatboxContainer.style.display) {
             chatboxContainer.style.display = 'block';
@@ -27,6 +27,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             chatboxContainer.style.display = 'none';
         }
+        userInput.addEventListener('keydown', function(event) {
+            // Check if the Enter key is pressed
+            if (event.keyCode === 13) {
+                // Prevent the default behavior of the Enter key (e.g., form submission)
+                event.preventDefault();
+                // Call the sendMessage function to send the message to the chatbot
+                sendMessage();
+            }
+        });
+    
     });
 
     sendButton.addEventListener('click', sendMessage);
@@ -34,9 +44,84 @@ document.addEventListener('DOMContentLoaded', function() {
     function sendMessage() {
         var message = userInput.value.trim();
         if (message === '') return;
-
-        displayUserMessage('You: ' + message, 'black');
-
+    
+        if (message.toLowerCase().includes('admission')) {
+            displayUserMessage('You: ' + message);
+            fetchBotResponse('admission'); // Directly call fetchBotResponse with 'admission' argument
+            userInput.value = ''; // Clear user input
+            return; // Exit the function
+        }
+          // Check for specific inputs and respond accordingly
+    if (message.toLowerCase().includes('courses') || message.toLowerCase().includes('programmes')) {
+        displayUserMessage('You: ' + message);
+        displayBotMessage('Bot: We offer?', 'white');
+        setTimeout(function() {
+            displaySuboptions();
+        }, 500);
+        userInput.value = '';
+        return;
+    }
+    // Check for contact-related input
+    if (message.toLowerCase().includes('contact') || message.toLowerCase().includes('phone') || message.toLowerCase().includes('email') || message.toLowerCase().includes('location')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('contact'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    // Check for contact-related input
+    if (message.toLowerCase().includes('eligibility')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('eligibility'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    if (message.toLowerCase().includes('civil engineering')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('civil engineering'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    if (message.toLowerCase().includes('mechanical engineering')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('mechanical engineering'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    if (message.toLowerCase().includes('electronics & communication engineering')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('electronics & communication engineering'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    if (message.toLowerCase().includes('computer science & engineering')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('computer science & engineering'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    if (message.toLowerCase().includes('electronics & instrumentation engineering')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('electronics & instrumentation engineering'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    if (message.toLowerCase().includes('information science & engineering')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('information science & engineering'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    if (message.toLowerCase().includes('computer science and business systems')) {
+        displayUserMessage('You: ' + message);
+        fetchBotResponse('computer science and business systems'); // Directly call fetchBotResponse with 'contact' argument
+        userInput.value = ''; // Clear user input
+        return; // Exit the function
+    }
+    
+    
+        displayUserMessage('You: ' + message);
+    
+        // Send user input to the server for processing
         fetch('/send-message', {
             method: 'POST',
             headers: {
@@ -54,33 +139,21 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('Response from server:', data); // Debugging statement
             if (data && data.response) {
-                
-                if(data.intent === 'register') {
-                    fetchBotResponse('Register');
+                displayMessage('Bot: ' + data.response, 'white');
+                // Generate options
+                if (data.intent === 'greeting') {
+                    setTimeout(function() {
+                        displayOptions();
+                    }, 500);
                 }
-                else if (data.intent === 'login' ){
-                    displayMessage('Bot: '+ data.response, 'black');
-                    displaySuboptions(['Student', 'Teacher']);
-                }
-                else{
-                    displayMessage('Bot: ' +data.response, 'black');
-                }
-              
             } else {
                 console.error('Invalid response from server:', data); // Debugging statement
             }
-            // Generate greeting response and options
-           
-            if (data && data.intent === 'greeting'){
-                setTimeout(function() {
-                    displayOptions();
-                },500);
-            }
-            
         });
-        
+    
         userInput.value = '';
     }
+    
     function sendGreetingMessage() {
         fetch('/send-message', {
             method: 'POST',
@@ -101,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data && data.response) {
                 // Display bot's response if it exists
                 setTimeout(function() {
-                displayMessage('Bot: ' + data.response, 'black');
+                displayMessage('Bot: ' + data.response, 'white');
                  // Generate options
                 displayOptions();
             },500);
@@ -110,13 +183,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
            
         });
+        
     }
     function displayOptions() {
-        displayOptionWithSuboptions('Login', ['Student', 'Teacher']);
-        displayOption('Register');
-        displayOption('FAQs');
-        displayOption('ContactUs');
-        displayOption('AboutUs');
+        displayOption('Admission');
+        displayOption('Programmes');
+        displayOption('Contact');
+        displayOption('Eligibility');
+        chatBox.appendChild(document.createElement('br')); // Add a line break
+        displayOption('Gallery');
+        displayOption('Examination');
+
+        
     }
     
     function displayOptionWithSuboptions(optionText, suboptions) {
@@ -131,67 +209,27 @@ document.addEventListener('DOMContentLoaded', function() {
             // Clear chat box before displaying suboptions
            
             displayUserMessage('You: ' + optionText);
-            displayMessage('Bot: Are you a?', 'black');
+            displayMessage('Bot: Are you a?', 'white');
             displaySuboptions(suboptions);
         });
     
         optionElement.addEventListener('mouseover', function() {
-            optionElement.style.backgroundColor = 'orange';
+            optionElement.style.backgroundColor = 'crimson';
             optionElement.style.color = 'white';
         });
     
         optionElement.addEventListener('mouseout', function() {
             optionElement.style.backgroundColor = 'white';
-            optionElement.style.color = 'orange';
+            optionElement.style.color = 'crimson';
         });
     
         optionContainer.appendChild(optionElement);
         chatBox.appendChild(optionContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-    function displaySuboptions(suboptions) {
-        var suboptionsContainer = document.createElement('div');
-        suboptionsContainer.classList.add('suboptions-container');
-        
-        // Create a container for the suboptions row
-        var suboptionsRow = document.createElement('div');
-        suboptionsRow.classList.add('suboptions-row');
-    
-        suboptions.forEach(function(suboption) {
-            var suboptionElement = document.createElement('div');
-            suboptionElement.textContent = suboption;
-            suboptionElement.classList.add('suboption');
-            suboptionElement.classList.add('option');
-    
-            suboptionElement.addEventListener('click', function() {
-                displayUserMessage('You: ' + suboption);
-                if (suboption.toLowerCase() === 'student') {
-                    fetchBotResponse('Student');
-                } else if (suboption.toLowerCase() === 'teacher') {
-                    fetchBotResponse('Teacher');
-                }
-            });
-    
-            suboptionElement.addEventListener('mouseover', function() {
-                suboptionElement.style.backgroundColor = 'orange';
-                suboptionElement.style.color = 'white';
-            });
-    
-            suboptionElement.addEventListener('mouseout', function() {
-                suboptionElement.style.backgroundColor = 'white';
-                suboptionElement.style.color = 'orange';
-            });
-    
-            // Append each suboption to the suboptions row
-            suboptionsRow.appendChild(suboptionElement);
-        });
-    
-        // Append the suboptions row to the suboptions container
-        suboptionsContainer.appendChild(suboptionsRow);
-    
-        // Append the suboptions container to the chat box
-        chatBox.appendChild(suboptionsContainer);
-        chatBox.scrollTop = chatBox.scrollHeight;
+    function displaySuboptions() {
+       displayOption('Undergraduate');
+       displayOption('Postgraduate');
     }
     
     
@@ -209,62 +247,63 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
     function displayUserMessage(message) {
+        var messageContainer = document.createElement('div');
+        messageContainer.classList.add('user-message-container');
         var messageElement = document.createElement('p');
         messageElement.textContent = message;
         messageElement.classList.add('user-message'); // Add user message class
+        messageContainer.appendChild(messageElement);
+        chatBox.appendChild(messageContainer);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    function displayBotMessage(message) {
+        var messageElement = document.createElement('p');
+        messageElement.innerHTML = message.replace(/\n/g, "<br>");
+        messageElement.classList.add('bot-message');
+        messageElement.style.color = 'white';
         chatBox.appendChild(messageElement);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-    function displayBotMessage(message, showFeedback = true) {
-        var botMessageContainer = document.createElement('div');
-        var messageElement = document.createElement('p');
-        messageElement.innerHTML = message;
-        botMessageContainer.appendChild(messageElement);
-        messageElement.classList.add('bot-message');
-        
-        if (showFeedback) {
-            // Create feedback options container
-            var feedbackContainer = document.createElement('div');
-            feedbackContainer.classList.add('feedback-container');
-           
-        
-            // Create feedback message
-            var feedbackMessage = document.createElement('p');
-            feedbackMessage.textContent = "Was I able to answer your question?";
-            feedbackContainer.appendChild(feedbackMessage);
-        
-            // Create like button
-            var likeButton = document.createElement('button');
-            likeButton.textContent = "👍";
-            likeButton.classList.add('feedback-button');
-            likeButton.addEventListener('click', function() {
-                displayUserMessage('You: 👍');
-                setTimeout(function() {
-                    fetchFeedbackResponse('like');
-                }, 500);
-            });
-            feedbackContainer.appendChild(likeButton);
-        
-            // Create dislike button
-            var dislikeButton = document.createElement('button');
-            dislikeButton.textContent = "👎";
-            dislikeButton.classList.add('feedback-button');
-            dislikeButton.addEventListener('click', function() {
-                displayUserMessage('You: 👎');
-                setTimeout(function() {
-                    fetchFeedbackResponse('dislike');
-                }, 500);
-            });
-            feedbackContainer.appendChild(dislikeButton);
-        
-            // Append feedback options container to the bot message container
-            botMessageContainer.appendChild(feedbackContainer);
-        }
-        
-        // Append bot message container to the chat box
-        chatBox.appendChild(botMessageContainer);
+    function displayFeedbackMessage() {
+        // Create feedback options container
+        var feedbackContainer = document.createElement('div');
+        feedbackContainer.classList.add('feedback-container');
+    
+        // Create feedback message
+        var feedbackMessage = document.createElement('p');
+        feedbackMessage.textContent = "Was I able to answer your question?";
+        feedbackContainer.appendChild(feedbackMessage);
+    
+        // Create like button
+        var likeButton = document.createElement('button');
+        likeButton.textContent = "👍";
+        likeButton.classList.add('feedback-button');
+        likeButton.addEventListener('click', function() {
+            displayUserMessage('You: 👍');
+            setTimeout(function() {
+                fetchFeedbackResponse('like');
+            }, 500);
+        });
+        feedbackContainer.appendChild(likeButton);
+    
+        // Create dislike button
+        var dislikeButton = document.createElement('button');
+        dislikeButton.textContent = "👎";
+        dislikeButton.classList.add('feedback-button');
+        dislikeButton.addEventListener('click', function() {
+            displayUserMessage('You: 👎');
+            setTimeout(function() {
+                fetchFeedbackResponse('dislike');
+            }, 500);
+        });
+        feedbackContainer.appendChild(dislikeButton);
+    
+        // Append feedback options container to the chat box
+        chatBox.appendChild(feedbackContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
+    
+   
     
     function displayOption(optionText) {
         var optionContainer = document.createElement('div');
@@ -273,6 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var optionElement = document.createElement('div');
         optionElement.textContent = optionText;
         optionElement.classList.add('option');
+        optionElement.style.marginBottom = '10px';
         
         optionElement.addEventListener('click', function() {
             // Display user message
@@ -285,13 +325,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
         optionElement.addEventListener('mouseover', function() {
-            optionElement.style.backgroundColor = 'orange';
+            optionElement.style.backgroundColor = 'crimson';
             optionElement.style.color = 'white';
         });
     
         optionElement.addEventListener('mouseout', function() {
             optionElement.style.backgroundColor = 'white';
-            optionElement.style.color = 'orange';
+            optionElement.style.color = 'crimson';
         });
     
         optionContainer.appendChild(optionElement);
@@ -301,40 +341,215 @@ document.addEventListener('DOMContentLoaded', function() {
     function fetchBotResponse(optionText) {
         // You can customize this function to fetch appropriate responses based on selected option
         var botResponse = '';
-        var loginLink = '';
-        var registerLink = '';
-        var faqlink = '';
-        var contactUsResponse = '';
-        var aboutUsLink = '';
-        if (optionText.toLowerCase() === 'student') {
-            botResponse = "Here is the Login Link of Student: ";
-            loginLink = "<a href='https://ymv51yk1e8.execute-api.ap-south-1.amazonaws.com/login'>Student login</a>";
-        } else if (optionText.toLowerCase() === 'teacher') {
-            botResponse = "Here is the Login Link of Teacher: ";
-            loginLink = "<a href='https://ymv51yk1e8.execute-api.ap-south-1.amazonaws.com/teacher'>Teacher login</a>";
-        } else if (optionText.toLowerCase() === 'register'){
-            botResponse = "Here is the register link of a teacher: ";
-            registerLink = "<a href='https://ymv51yk1e8.execute-api.ap-south-1.amazonaws.com/registration'>Teacher Register</a>"
-        } else if (optionText.toLowerCase() === 'faqs') {
-            botResponse = "Here is the FAQ Link: ";
-            faqlink = "<a href='https://atlstage.unisolve.org/faq.html'>FAQs</a>";
-        } else if (optionText.toLowerCase() === 'contactus') {
-            contactUsResponse = "For admission inquiries, please visit our website or contact our admissions office.";
-        } else if (optionText.toLowerCase() === 'aboutus') {
-            botResponse = "Click Here to see the video aboutus";
-            aboutUsLink = "<a href='https://youtu.be/HufI5CnhkfU'>AboutUs</a>"
+        var link = '';
+        if (optionText.toLowerCase() === 'admission') {
+            botResponse = "Click below link to see admission form: ";
+            link = "<a href='https://admissions.mcehassan.ac.in/' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+         else if (optionText.toLowerCase() === 'programmes') {
+            botResponse = "We offer?";
+            displayBotMessage("Bot: "+ botResponse, 'white');
+            displaySuboptions();
         }
-        // Display bot response
-        displayBotMessage('Bot: ' + botResponse + ' ' + loginLink + ' ' +registerLink + ' ' + faqlink + ' ' + contactUsResponse + ' '+  aboutUsLink , 'black');
-       
+        else if (optionText.toLowerCase() === 'undergraduate') {
+            botResponse = "Our Undergraduate Programs are";
+            displayBotMessage("Bot: "+ botResponse, 'white');
+            displaySuboptionsofUndergraduate();
+        }
+        
+        else if (optionText.toLowerCase() === 'postgraduate') {
+            var programs = [
+                "1.Digital Electronics & Communication Systems",
+                "2.Computer Aided Design of Structures",
+                "3.Power & Energy System",
+                "4.Artificial Intelligence & Data Science",
+
+                "I can't provide links for PG Courses you can directly connect admission office",
+                
+            ];
+            
+            var botResponse = "Our postgraduate programmes are:\n";
+            botResponse += programs.join("\n");
+            displayBotMessage('Bot: ' + botResponse, 'white');
+            setTimeout(function() {
+                displayFeedbackMessage();
+             }, 500);
+        }
+        else if (optionText.toLowerCase() === 'contact') {
+            var phoneNumber = "08172-245317";
+            var emailAddress = "admissions@mcehassan.ac.in";
+            var location = "No 21, Salagame Rd, Rangoli Halla, Hassan, Karnataka 573202";
+        
+            var botResponse = "Phone Number: <a href='tel:" + phoneNumber + "'>" + phoneNumber + "</a><br>";
+            botResponse += "Email Address: <a href='mailto:" + emailAddress + "'>" + emailAddress + "</a><br>";
+            botResponse += "Location: " + location;
+        
+            displayBotMessage('Bot: ' + botResponse, 'white');
+            setTimeout(function() {
+                displayFeedbackMessage();
+            }, 500);
+        }
+        
+        else if (optionText.toLowerCase() === 'eligibility') {
+            var eligibilityInfo = [
+                "1. Matriculation with 60% marks, Sr. Secondary (10+2) with minimum 70% (Aggregate) & minimum 60% marks in PCM, Computer Science/PCB for Biotechnology.",
+                "2. Minimum 50% marks in Maths.",
+                "3. For Management Admissions: Students have to take any one of the Entrance Examination.",
+                "4.Entrance Examination: KEA / COMED-K"
+            ];
+        
+            var botResponse = eligibilityInfo.join("<br>");
+            displayBotMessage('Bot: ' + botResponse, 'white');
+            setTimeout(function() {
+                displayFeedbackMessage();
+            }, 500);
+        }
+        else if (optionText.toLowerCase() === 'civil engineering') {
+            botResponse = "Click Below to know about Civil Engineering";
+            link = "<a href='https://www.mcehassan.ac.in/home/Overview/Civil-Engineering' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'mechanical engineering') {
+            botResponse = "Click Below to know about Mechanical Engineering";
+            link = "<a href='https://www.mcehassan.ac.in/home/Overview/Mechanical-Engineering' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'electronics & communication engineering') {
+            botResponse = "Click Below to know about Electronics & Communication Engineering";
+            link = "<a href='https://www.mcehassan.ac.in/home/Overview/Electronics-and-Communication-Engineering' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'computer science & engineering') {
+            botResponse = "Click Below to know about Computer Science & Engineering";
+            link = "<a href='https://www.mcehassan.ac.in/home/Overview/Computer-Science-and-Engineering' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'electronics & instrumentation engineering') {
+            botResponse = "Click Below to know about Electronics & Instrumentation Engineering";
+            link = "<a href='https://www.mcehassan.ac.in/home/Overview/Electronics-and-Instrumentation-Engineering' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'information science & engineering') {
+            botResponse = "Click Below to know about Information Science & Engineering";
+            link = "<a href='https://www.mcehassan.ac.in/home/Overview/Information-Science-and-Engineering' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'computer science and business systems') {
+            botResponse = "Click Below to know about Computer Science and Business Systems";
+            link = "<a href='https://www.mcehassan.ac.in/home/Overview/Computer-Science-and-Business-Systems' target='_blank'>Click Here</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'gallery') {
+            botResponse = "Click below link to see gallery ";
+            link = "<a href='https://www.mcehassan.ac.in/home/Gallerys' target='_blank'>Gallery</a>";
+            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            setTimeout(function() {
+               displayFeedbackMessage();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'examination') {
+            displayBotMessage('Bot: What do you want to know about examinations?', 'white');
+            setTimeout(function() {
+                displayExaminationOptions();
+            }, 500);
+        }
+        else if (optionText.toLowerCase() === 'process') {
+            // Open the URL in a new tab
+            window.open('https://www.mcehassan.ac.in/home/Process', '_blank');
+            setTimeout(function() {
+                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayOptionsAfterExaminationOptions();
+            }, 500);
+        }
+        else if (optionText.toLowerCase() === 'circulars') {
+            // Open the URL in a new tab
+            window.open('https://www.mcehassan.ac.in/home/Circulars', '_blank');
+            setTimeout(function() {
+                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayOptionsAfterExaminationOptions();
+            }, 500);
+        }
+        else if (optionText.toLowerCase() === 'seat allotment') {
+            // Open the URL in a new tab
+            window.open('https://www.mcehassan.ac.in/home/Seat-Allotment', '_blank');
+            setTimeout(function() {
+                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayOptionsAfterExaminationOptions();
+            }, 500);
+        } 
+        else if (optionText.toLowerCase() === 'results') {
+            // Open the URL in a new tab
+            window.open('https://www.mcehassan.ac.in/home/Results', '_blank');
+            setTimeout(function() {
+                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayOptionsAfterExaminationOptions();
+            }, 500);
+        }
+        else if (optionText.toLowerCase() === 'malpractice enquiry committee') {
+            // Open the URL in a new tab
+            window.open('https://www.mcehassan.ac.in/home/Malpractice-Enquiry-Committee', '_blank');
+            setTimeout(function() {
+                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayOptionsAfterExaminationOptions();
+            }, 500);
+        }
+        
+        
+        
     
     }
+    function displaySuboptionsofUndergraduate() {
+        displayOption('Civil Engineering');
+        displayOption('Mechanical Engineering');
+        displayOption('Electronics & Communication Engineering');
+        displayOption('Computer Science & Engineering');
+        displayOption('Electronics & Instrumentation Engineering');
+        displayOption('Information Science & Engineering');
+        displayOption('Computer Science and Business Systems');
+
+     }
+     function displayExaminationOptions() {
+        displayOption('Process');
+        displayOption('Circulars');
+        displayOption('Seat Allotment');
+        displayOption('Results');
+        displayOption('Malpractice Enquiry Committee');
+    }
+    
     function fetchFeedbackResponse(feedback) {
         if (feedback === 'like') {
             displayBotMessage('Bot: Thanks for your feedback. Is there anything else that I can help you with?', false);
             displayOptionsAfterFeedback();
         } else if (feedback === 'dislike') {
-            displayBotMessage('Bot: I\'m sorry to hear that. Thank you for visiting the chatbot.', false);
+            displayBotMessage('Bot: I\'m sorry to hear that. Try again!.', false);
+            setTimeout(function() {
+                sendGreetingMessage();
+            }, 500);
         }
     }
     function displayOptionsAfterFeedback() {
@@ -352,13 +567,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         // Add event listener for hover effect
         yesOptionElement.addEventListener('mouseenter', function() {
-            yesOptionElement.style.backgroundColor = 'orange';
+            yesOptionElement.style.backgroundColor = 'crimson';
             yesOptionElement.style.color = 'white';
         });
         // Remove hover effect when mouse leaves
         yesOptionElement.addEventListener('mouseleave', function() {
             yesOptionElement.style.backgroundColor = 'white';
-            yesOptionElement.style.color = 'orange';
+            yesOptionElement.style.color = 'crimson';
         });
         optionContainer.appendChild(yesOptionElement);
     
@@ -374,13 +589,64 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         // Add event listener for hover effect
         noOptionElement.addEventListener('mouseenter', function() {
-            noOptionElement.style.backgroundColor = 'orange';
+            noOptionElement.style.backgroundColor = 'crimson';
             noOptionElement.style.color = 'white';
         });
         // Remove hover effect when mouse leaves
         noOptionElement.addEventListener('mouseleave', function() {
             noOptionElement.style.backgroundColor = 'white';
-            noOptionElement.style.color = 'orange';
+            noOptionElement.style.color = 'crimson';
+        });
+        optionContainer.appendChild(noOptionElement);
+    
+        // Append options container to the chat box
+        chatBox.appendChild(optionContainer);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    function displayOptionsAfterExaminationOptions() {
+        // Display options for "Yes" and "No"
+        var optionContainer = document.createElement('div');
+        optionContainer.classList.add('option-container');
+    
+        // Option for "Yes"
+        var yesOptionElement = document.createElement('div');
+        yesOptionElement.textContent = 'Yes';
+        yesOptionElement.classList.add('option');
+        yesOptionElement.addEventListener('click', function() {
+            displayUserMessage('You: Yes');
+            // Call the function to send the greeting message and display options
+            sendGreetingMessage();
+        });
+        // Add event listener for hover effect
+        yesOptionElement.addEventListener('mouseenter', function() {
+            yesOptionElement.style.backgroundColor = 'crimson';
+            yesOptionElement.style.color = 'white';
+        });
+        // Remove hover effect when mouse leaves
+        yesOptionElement.addEventListener('mouseleave', function() {
+            yesOptionElement.style.backgroundColor = 'white';
+            yesOptionElement.style.color = 'crimson';
+        });
+        optionContainer.appendChild(yesOptionElement);
+    
+        // Option for "No"
+        var noOptionElement = document.createElement('div');
+        noOptionElement.textContent = 'No';
+        noOptionElement.classList.add('option');
+        noOptionElement.addEventListener('click', function() {
+            displayUserMessage('You: No');
+            // Display farewell message
+            displayBotMessage('Bot: Thanks for visiting the chatbot. Feel free to ask questions.', false);
+        });
+        // Add event listener for hover effect
+        noOptionElement.addEventListener('mouseenter', function() {
+            noOptionElement.style.backgroundColor = 'crimson';
+            noOptionElement.style.color = 'white';
+        });
+        // Remove hover effect when mouse leaves
+        noOptionElement.addEventListener('mouseleave', function() {
+            noOptionElement.style.backgroundColor = 'white';
+            noOptionElement.style.color = 'crimson';
         });
         optionContainer.appendChild(noOptionElement);
     
@@ -389,5 +655,5 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
    
-    
+ 
 });

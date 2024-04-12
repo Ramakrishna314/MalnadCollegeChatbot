@@ -13,8 +13,8 @@ body {
     right: 20px; /* Adjust this value as needed */
     cursor: pointer;
     z-index: 999;
-    width: 50px; /* Adjust the width as needed */
-    height: 50px;
+    width: 70px; /* Adjust the width as needed */
+    height: 70px;
   }
  
   
@@ -32,19 +32,23 @@ body {
     height: 650px;
     width: 500px;
     background-color: white;
+   
+    border-radius: 15px; /* Add border-radius for curved corners */
+    
   }
   
   .chatbox-heading {
-    background-color: orange;
+    background-color: crimson;
     color: #fff;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 15px; /* Add border-radius for curved corners */
   }
   .chatbox-heading img {
-    width: 40px; /* Set the desired width */
-    height: 40px; /* Set the desired height */
+    width: 120px; /* Set the desired width */
+    height: 50px; /* Set the desired height */
     margin-right: 10px; /* Add margin to separate image from text */
   }
   .chatbox-heading h1 {
@@ -56,14 +60,7 @@ body {
     max-height: 550px;
     overflow-y: auto;
     padding: 10px;
-  }
-  
- 
-  
-  
-  
-  
-  
+  }   
   .input-box {
     box-sizing: border-box;
     display: flex;
@@ -71,6 +68,7 @@ body {
     align-items: center;
     padding: 10px;
     margin-top: auto; /* This will push .App to the bottom */
+    
   }
   
   #userMessage {
@@ -81,12 +79,10 @@ body {
     margin-right: 10px;
     
   }
-  
-  
 
   .send-button {
     padding: 8px;
-    background-color: orange;
+    background-color: crimson;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -95,25 +91,12 @@ body {
     font-size: 20px;
   }
   
-  .timestamp {
-    text-align: center;
-    font-size: 12px;
-    color: #888;
-    margin-top: 5px;
-  }
-  
-  
-  
-  
-  
-  .close-button:active {
-    background-color: #d32f2f;
-  }
+
  
  
  
 .close-button-container {
-  background-color: black;
+  background-color: deeppink;
   border-radius: 50%;
   width: 30px; /* Adjust the size as needed */
   height: 30px; /* Adjust the size as needed */
@@ -137,7 +120,7 @@ body {
    /* Adjust the margin as needed */
 }
 .refresh-button-container {
-  background-color: black;
+  background-color: deeppink;
   border-radius: 50%;
   width: 30px; /* Adjust the size as needed */
   height: 30px; /* Adjust the size as needed */
@@ -155,11 +138,11 @@ body {
 .option {
   display: inline-block;
   padding: 5px 10px;
-  border: 1px solid orange;
+  border: 1px solid crimson;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   border-radius: 10px;
-  color: orange;
+  color: crimson;
 }
 .user-message {
   background-color: #b3d9ff; /* Light blue */
@@ -169,9 +152,13 @@ body {
   float: right;
   clear: both;
 }
+.user-message-container {
+  text-align: right; /* Align user messages to the right */
+  margin-bottom: 10px;
+}
 
 .bot-message {
-  background-color: orange; /* Background color for bot messages */
+  background-color: crimson; /* Background color for bot messages */
   padding: 10px;
   border-radius: 10px; /* Curved corners */
   max-width: 70%; /* Maximum width for the bot message container */
@@ -179,6 +166,21 @@ body {
   margin-bottom: 10px;
   
 }
+/* Define the animation */
+@keyframes jump {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Apply the animation to the messenger icon when hovered */
+.messenger-icon:hover {
+  animation: jump 0.5s infinite;
+}
+
+
+
+
 
 
 
