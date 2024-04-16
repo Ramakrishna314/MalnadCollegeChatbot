@@ -46,15 +46,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (message === '') return;
     
         if (message.toLowerCase().includes('admission')) {
-            displayUserMessage('You: ' + message);
+            displayUserMessage(message);
             fetchBotResponse('admission'); // Directly call fetchBotResponse with 'admission' argument
             userInput.value = ''; // Clear user input
             return; // Exit the function
         }
           // Check for specific inputs and respond accordingly
     if (message.toLowerCase().includes('courses') || message.toLowerCase().includes('programmes')) {
-        displayUserMessage('You: ' + message);
-        displayBotMessage('Bot: We offer?', 'white');
+        displayUserMessage(message);
+        displayBotMessage('We offer?');
         setTimeout(function() {
             displaySuboptions();
         }, 500);
@@ -63,63 +63,63 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // Check for contact-related input
     if (message.toLowerCase().includes('contact') || message.toLowerCase().includes('phone') || message.toLowerCase().includes('email') || message.toLowerCase().includes('location')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(+ message);
         fetchBotResponse('contact'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     // Check for contact-related input
     if (message.toLowerCase().includes('eligibility')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('eligibility'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     if (message.toLowerCase().includes('civil engineering')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('civil engineering'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     if (message.toLowerCase().includes('mechanical engineering')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('mechanical engineering'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     if (message.toLowerCase().includes('electronics & communication engineering')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('electronics & communication engineering'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     if (message.toLowerCase().includes('computer science & engineering')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('computer science & engineering'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     if (message.toLowerCase().includes('electronics & instrumentation engineering')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('electronics & instrumentation engineering'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     if (message.toLowerCase().includes('information science & engineering')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('information science & engineering'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     if (message.toLowerCase().includes('computer science and business systems')) {
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
         fetchBotResponse('computer science and business systems'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
     }
     
     
-        displayUserMessage('You: ' + message);
+        displayUserMessage(message);
     
         // Send user input to the server for processing
         fetch('/send-message', {
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('Response from server:', data); // Debugging statement
             if (data && data.response) {
-                displayMessage('Bot: ' + data.response, 'white');
+                displayBotMessage(data.response);
                 // Generate options
                 if (data.intent === 'greeting') {
                     setTimeout(function() {
@@ -172,9 +172,11 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             console.log('Response from server:', data); // Debugging statement
             if (data && data.response) {
+               
                 // Display bot's response if it exists
                 setTimeout(function() {
-                displayMessage('Bot: ' + data.response, 'white');
+                  
+                displayBotMessage(data.response);
                  // Generate options
                 displayOptions();
             },500);
@@ -184,13 +186,15 @@ document.addEventListener('DOMContentLoaded', function() {
            
         });
         
+        
     }
+    
+   
     function displayOptions() {
         displayOption('Admission');
         displayOption('Programmes');
         displayOption('Contact');
         displayOption('Eligibility');
-        chatBox.appendChild(document.createElement('br')); // Add a line break
         displayOption('Gallery');
         displayOption('Examination');
 
@@ -208,8 +212,8 @@ document.addEventListener('DOMContentLoaded', function() {
         optionElement.addEventListener('click', function() {
             // Clear chat box before displaying suboptions
            
-            displayUserMessage('You: ' + optionText);
-            displayMessage('Bot: Are you a?', 'white');
+            displayUserMessage(optionText);
+            displayMessage('Are you a?');
             displaySuboptions(suboptions);
         });
     
@@ -247,23 +251,57 @@ document.addEventListener('DOMContentLoaded', function() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
     function displayUserMessage(message) {
+        // Create a container for the user message and image
         var messageContainer = document.createElement('div');
         messageContainer.classList.add('user-message-container');
+    
+        // Create the user image element
+        var userImage = document.createElement('img');
+        userImage.src = 'static/assets/userimage2.png'; // Replace 'path_to_your_user_image.jpg' with the actual path to your user image
+        userImage.classList.add('user-image');
+    
+        // Create the user message element
         var messageElement = document.createElement('p');
         messageElement.textContent = message;
-        messageElement.classList.add('user-message'); // Add user message class
+        messageElement.classList.add('user-message');
+        messageElement.style.color = 'white';
+    
+        // Append the user image and message to the container
+        
         messageContainer.appendChild(messageElement);
+        messageContainer.appendChild(userImage);
+    
+        // Append the container to the chat box
         chatBox.appendChild(messageContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
-    function displayBotMessage(message) {
+    
+    function displayBotMessage(message, color) {
+        // Create a container for the bot message and image
+        var messageContainer = document.createElement('div');
+        messageContainer.classList.add('bot-message-container');
+    
+        // Create the bot image element
+        var botImage = document.createElement('img');
+        botImage.src = 'static/assets/Mira_black.png'; // Replace 'path_to_your_bot_image.jpg' with the actual path to your bot image
+        botImage.classList.add('bot-image');
+    
+        // Create the bot message element
         var messageElement = document.createElement('p');
         messageElement.innerHTML = message.replace(/\n/g, "<br>");
         messageElement.classList.add('bot-message');
         messageElement.style.color = 'white';
-        chatBox.appendChild(messageElement);
+
+    
+        // Append the bot image and message to the container
+        messageContainer.appendChild(botImage);
+        messageContainer.appendChild(messageElement);
+    
+        // Append the container to the chat box
+        chatBox.appendChild(messageContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
+    
     function displayFeedbackMessage() {
         // Create feedback options container
         var feedbackContainer = document.createElement('div');
@@ -279,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
         likeButton.textContent = "👍";
         likeButton.classList.add('feedback-button');
         likeButton.addEventListener('click', function() {
-            displayUserMessage('You: 👍');
+            displayUserMessage('👍');
             setTimeout(function() {
                 fetchFeedbackResponse('like');
             }, 500);
@@ -291,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function() {
         dislikeButton.textContent = "👎";
         dislikeButton.classList.add('feedback-button');
         dislikeButton.addEventListener('click', function() {
-            displayUserMessage('You: 👎');
+            displayUserMessage('👎');
             setTimeout(function() {
                 fetchFeedbackResponse('dislike');
             }, 500);
@@ -314,9 +352,11 @@ document.addEventListener('DOMContentLoaded', function() {
         optionElement.classList.add('option');
         optionElement.style.marginBottom = '10px';
         
+        
+        
         optionElement.addEventListener('click', function() {
             // Display user message
-            displayUserMessage('You: ' + optionText);
+            displayUserMessage(optionText);
             // Fetch bot response
            setTimeout(function() {
             fetchBotResponse(optionText);
@@ -345,19 +385,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if (optionText.toLowerCase() === 'admission') {
             botResponse = "Click below link to see admission form: ";
             link = "<a href='https://admissions.mcehassan.ac.in/' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
         } 
          else if (optionText.toLowerCase() === 'programmes') {
             botResponse = "We offer?";
-            displayBotMessage("Bot: "+ botResponse, 'white');
+            displayBotMessage(botResponse);
             displaySuboptions();
         }
         else if (optionText.toLowerCase() === 'undergraduate') {
             botResponse = "Our Undergraduate Programs are";
-            displayBotMessage("Bot: "+ botResponse, 'white');
+            displayBotMessage(botResponse);
             displaySuboptionsofUndergraduate();
         }
         
@@ -374,7 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             var botResponse = "Our postgraduate programmes are:\n";
             botResponse += programs.join("\n");
-            displayBotMessage('Bot: ' + botResponse, 'white');
+            displayBotMessage(botResponse);
             setTimeout(function() {
                 displayFeedbackMessage();
              }, 500);
@@ -388,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function() {
             botResponse += "Email Address: <a href='mailto:" + emailAddress + "'>" + emailAddress + "</a><br>";
             botResponse += "Location: " + location;
         
-            displayBotMessage('Bot: ' + botResponse, 'white');
+            displayBotMessage(botResponse);
             setTimeout(function() {
                 displayFeedbackMessage();
             }, 500);
@@ -403,7 +443,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ];
         
             var botResponse = eligibilityInfo.join("<br>");
-            displayBotMessage('Bot: ' + botResponse, 'white');
+            displayBotMessage(botResponse);
             setTimeout(function() {
                 displayFeedbackMessage();
             }, 500);
@@ -411,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'civil engineering') {
             botResponse = "Click Below to know about Civil Engineering";
             link = "<a href='https://www.mcehassan.ac.in/home/Overview/Civil-Engineering' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
@@ -419,7 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'mechanical engineering') {
             botResponse = "Click Below to know about Mechanical Engineering";
             link = "<a href='https://www.mcehassan.ac.in/home/Overview/Mechanical-Engineering' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
@@ -427,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'electronics & communication engineering') {
             botResponse = "Click Below to know about Electronics & Communication Engineering";
             link = "<a href='https://www.mcehassan.ac.in/home/Overview/Electronics-and-Communication-Engineering' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
@@ -435,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'computer science & engineering') {
             botResponse = "Click Below to know about Computer Science & Engineering";
             link = "<a href='https://www.mcehassan.ac.in/home/Overview/Computer-Science-and-Engineering' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
@@ -443,7 +483,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'electronics & instrumentation engineering') {
             botResponse = "Click Below to know about Electronics & Instrumentation Engineering";
             link = "<a href='https://www.mcehassan.ac.in/home/Overview/Electronics-and-Instrumentation-Engineering' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
@@ -451,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'information science & engineering') {
             botResponse = "Click Below to know about Information Science & Engineering";
             link = "<a href='https://www.mcehassan.ac.in/home/Overview/Information-Science-and-Engineering' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
@@ -459,7 +499,7 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'computer science and business systems') {
             botResponse = "Click Below to know about Computer Science and Business Systems";
             link = "<a href='https://www.mcehassan.ac.in/home/Overview/Computer-Science-and-Business-Systems' target='_blank'>Click Here</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
@@ -467,13 +507,13 @@ document.addEventListener('DOMContentLoaded', function() {
         else if (optionText.toLowerCase() === 'gallery') {
             botResponse = "Click below link to see gallery ";
             link = "<a href='https://www.mcehassan.ac.in/home/Gallerys' target='_blank'>Gallery</a>";
-            displayBotMessage('Bot: ' + botResponse + ' ' + link, 'white');
+            displayBotMessage(botResponse + ' ' + link);
             setTimeout(function() {
                displayFeedbackMessage();
             }, 500);
         } 
         else if (optionText.toLowerCase() === 'examination') {
-            displayBotMessage('Bot: What do you want to know about examinations?', 'white');
+            displayBotMessage('What do you want to know about examinations?', 'white');
             setTimeout(function() {
                 displayExaminationOptions();
             }, 500);
@@ -482,7 +522,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Open the URL in a new tab
             window.open('https://www.mcehassan.ac.in/home/Process', '_blank');
             setTimeout(function() {
-                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayBotMessage('Is there anything else I can help you with?');
                 displayOptionsAfterExaminationOptions();
             }, 500);
         }
@@ -490,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Open the URL in a new tab
             window.open('https://www.mcehassan.ac.in/home/Circulars', '_blank');
             setTimeout(function() {
-                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayBotMessage('Is there anything else I can help you with?');
                 displayOptionsAfterExaminationOptions();
             }, 500);
         }
@@ -498,7 +538,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Open the URL in a new tab
             window.open('https://www.mcehassan.ac.in/home/Seat-Allotment', '_blank');
             setTimeout(function() {
-                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayBotMessage('Is there anything else I can help you with?');
                 displayOptionsAfterExaminationOptions();
             }, 500);
         } 
@@ -506,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Open the URL in a new tab
             window.open('https://www.mcehassan.ac.in/home/Results', '_blank');
             setTimeout(function() {
-                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayBotMessage('Is there anything else I can help you with?');
                 displayOptionsAfterExaminationOptions();
             }, 500);
         }
@@ -514,7 +554,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Open the URL in a new tab
             window.open('https://www.mcehassan.ac.in/home/Malpractice-Enquiry-Committee', '_blank');
             setTimeout(function() {
-                displayBotMessage('Bot: Is there anything else I can help you with?', 'white');
+                displayBotMessage('Is there anything else I can help you with?');
                 displayOptionsAfterExaminationOptions();
             }, 500);
         }
@@ -543,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function fetchFeedbackResponse(feedback) {
         if (feedback === 'like') {
-            displayBotMessage('Bot: Thanks for your feedback. Is there anything else that I can help you with?', false);
+            displayBotMessage('Thanks for your feedback. Is there anything else that I can help you with?', false);
             displayOptionsAfterFeedback();
         } else if (feedback === 'dislike') {
             displayBotMessage('Bot: I\'m sorry to hear that. Try again!.', false);
@@ -562,7 +602,7 @@ document.addEventListener('DOMContentLoaded', function() {
         yesOptionElement.textContent = 'Yes';
         yesOptionElement.classList.add('option');
         yesOptionElement.addEventListener('click', function() {
-            displayUserMessage('You: Yes');
+            displayUserMessage('Yes');
             sendGreetingMessage();
         });
         // Add event listener for hover effect
@@ -582,9 +622,9 @@ document.addEventListener('DOMContentLoaded', function() {
         noOptionElement.textContent = 'No';
         noOptionElement.classList.add('option');
         noOptionElement.addEventListener('click', function() {
-            displayUserMessage('You: No');
+            displayUserMessage('No');
             setTimeout(function() {
-                displayBotMessage('Bot: Thanks for visiting the chatbot. Feel free to ask questions.', false);
+                displayBotMessage('Thanks for visiting the chatbot. Feel free to ask questions.', false);
             }, 500);
         });
         // Add event listener for hover effect
@@ -613,7 +653,7 @@ document.addEventListener('DOMContentLoaded', function() {
         yesOptionElement.textContent = 'Yes';
         yesOptionElement.classList.add('option');
         yesOptionElement.addEventListener('click', function() {
-            displayUserMessage('You: Yes');
+            displayUserMessage('Yes');
             // Call the function to send the greeting message and display options
             sendGreetingMessage();
         });
@@ -634,9 +674,9 @@ document.addEventListener('DOMContentLoaded', function() {
         noOptionElement.textContent = 'No';
         noOptionElement.classList.add('option');
         noOptionElement.addEventListener('click', function() {
-            displayUserMessage('You: No');
+            displayUserMessage('No');
             // Display farewell message
-            displayBotMessage('Bot: Thanks for visiting the chatbot. Feel free to ask questions.', false);
+            displayBotMessage('Thanks for visiting the chatbot. Feel free to ask questions.', false);
         });
         // Add event listener for hover effect
         noOptionElement.addEventListener('mouseenter', function() {

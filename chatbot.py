@@ -20,8 +20,8 @@ greeting_responses = [
 
 # Define a list of questions and their corresponding answers
 question_answers = {
-    "What is your name?": "I am a MCE Assistant.",
-    "How are you?": "I'm a MCE Assistant, but thanks for asking!",
+    "What is your name?": "I am a Mira.",
+    "How are you?": "I'm a fine, but thanks for asking!",
     "What is the weather today?": "I'm sorry, I cannot provide weather information at the moment.",
     "Why did i pick to attend this college?": "You choose to attend MCE because of its outstanding academic programs, vibrant campus life, and strong industry connections, all of which align perfectly with your educational and career goals."
 }

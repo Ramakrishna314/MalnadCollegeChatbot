@@ -1,7 +1,8 @@
 /* styles.css */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: 'Nunito', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
@@ -47,7 +48,7 @@ body {
     border-radius: 15px; /* Add border-radius for curved corners */
   }
   .chatbox-heading img {
-    width: 120px; /* Set the desired width */
+    width: 70px; /* Set the desired width */
     height: 50px; /* Set the desired height */
     margin-right: 10px; /* Add margin to separate image from text */
   }
@@ -92,9 +93,6 @@ body {
   }
   
 
- 
- 
- 
 .close-button-container {
   background-color: deeppink;
   border-radius: 50%;
@@ -104,6 +102,7 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  margin-right: 10px;
 }
 
 .close-button {
@@ -115,9 +114,6 @@ body {
   
   cursor: pointer;
   color: white;
- 
-  
-   /* Adjust the margin as needed */
 }
 .refresh-button-container {
   background-color: deeppink;
@@ -128,11 +124,15 @@ body {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 20px; /* No right margin for the refresh button container */
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: 10px;
 }
 .option-container {
   display: inline-block;
-  margin-right: 10px; /* Adjust as needed */
+  margin-right: 0;
+
+  
 }
 
 .option {
@@ -143,14 +143,17 @@ body {
   transition: background-color 0.3s, color 0.3s;
   border-radius: 10px;
   color: crimson;
+  margin-left: 10px;
+ 
 }
 .user-message {
-  background-color: #b3d9ff; /* Light blue */
+  background-color: crimson; /* Light blue */
   padding: 5px 10px;
   border-radius: 10px;
   margin: 5px 0;
   float: right;
   clear: both;
+  
 }
 .user-message-container {
   text-align: right; /* Align user messages to the right */
@@ -158,12 +161,13 @@ body {
 }
 
 .bot-message {
-  background-color: crimson; /* Background color for bot messages */
+  background-color: grey; /* Background color for bot messages */
   padding: 10px;
   border-radius: 10px; /* Curved corners */
   max-width: 70%; /* Maximum width for the bot message container */
   clear: both;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
+  
   
 }
 /* Define the animation */
@@ -177,6 +181,40 @@ body {
 .messenger-icon:hover {
   animation: jump 0.5s infinite;
 }
+.bot-message-container {
+  display: flex; /* Use flexbox to align items */
+  align-items: center; /* Center items vertically */
+  margin-bottom: 0;
+}
+.bot-image {
+  width: 25px; /* Adjust the width of the bot image */
+  height: 25px; /* Adjust the height of the bot image */
+  margin-right: 10px; /* Adjust the spacing between the image and the message */
+}
+.user-message-container {
+  display: flex; /* Use flexbox to align items */
+  align-items: center; /* Center items vertically */
+  justify-content: flex-end; /* Align items to the right */
+}
+
+.user-image {
+  width: 25px; /* Adjust the width of the user image */
+  height: 25px; /* Adjust the height of the user image */
+  margin-right: 10px; /* Adjust the spacing between the message and the image */
+  
+}
+.feedback-container {
+  margin-left: 50px; /* Moves the feedback container to the right */
+  margin-right: 10px; /* Adds some gap on the right side */
+  margin-top: 0;
+
+
+ 
+}
+
+
+
+
 
 
 
