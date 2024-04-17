@@ -19,4 +19,6 @@ jobs:
           echo "$PRIVATE_KEY" > private_key && chmod 400 private_key
           ssh -o StrictHostKeyChecking=no -i private_key ubuntu@${{secrets.HOSTNAME}} '
             cd /var/www/html/ &&
-            sudo git pull origin master '
+            sudo git pull origin master
+            python3 chatbot.py
+            nohup gunicorn -w 1 -b 0.0.0.0:5001 chatbot:app > /dev/null 2>&1 &'
