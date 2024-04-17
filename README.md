@@ -41,5 +41,6 @@ To pull the latest changes from the repository:
 2. Respond to specific questions with pre-defined answers.
 3. Recognize user intents based on input.
 4. Provide information about courses and admission.
+5. Hii.
 
 
