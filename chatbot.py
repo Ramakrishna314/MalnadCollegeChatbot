@@ -117,4 +117,4 @@ def send_message():
     return jsonify({'error': 'Method Not Allowed'}), 405
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='3.26.190.181',port=5001)
