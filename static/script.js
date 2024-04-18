@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // Check for contact-related input
     if (message.toLowerCase().includes('contact') || message.toLowerCase().includes('phone') || message.toLowerCase().includes('email') || message.toLowerCase().includes('location')) {
-        displayUserMessage(+ message);
+        displayUserMessage(message);
         fetchBotResponse('contact'); // Directly call fetchBotResponse with 'contact' argument
         userInput.value = ''; // Clear user input
         return; // Exit the function
